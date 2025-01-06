@@ -1,7 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose');
 
-const pageRoute = require('./routes/pageRoute') 
+const blogRoute = require('./routes/blogRoute') 
+const userRoute = require('./routes/userRoute') 
 
 const app = express()
 
@@ -12,21 +13,21 @@ mongoose.connect('mongodb://127.0.0.1:27017/queen\'s_space').then(() => {
 });
 
 //routes
-app.use('/', pageRoute);// buradan sonrasının yapılandırması yapılmadı daha.
-// Blog Detay
-app.use('/blogs/:id', pageRoute);
-// Kaydolma
-app.use('/register', pageRoute);
-// Giriş Yapma
-app.use('/login', pageRoute);
-// Profil
-app.use('/profile', pageRoute);
+app.use('/', blogRoute);// buradan sonrasının yapılandırması yapılmadı daha.
 // Yeni Blog Ekle
-app.use('/blogs/new', pageRoute);
+app.use('/blogs/new', blogRoute);
 // Blog Düzenle
-app.use('/blogs/edit/:id', pageRoute);
+app.use('/blogs/edit/:id', blogRoute);
+// Blog Detay
+app.use('/blogs/:id', blogRoute);
+// Kaydolma
+app.use('/register', blogRoute);
+// Giriş Yapma
+app.use('/login', blogRoute);
+// Profil
+app.use('/profile', blogRoute);
 // Yazarlar
-app.use('/authost', pageRoute);
+app.use('/user', userRoute);
 
 const port = process.env.port || 5000;
 app.listen(port, () => {

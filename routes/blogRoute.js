@@ -1,9 +1,9 @@
 const express = require("express")
-const pageController = require ('../controllers/pageController');
+const blogController = require ('../controllers/blogController');
 const Blog = require('../models/Blog');
 
 const router = express.Router();
 
-router.route('/').get(pageController.getIndexPage);
+router.route('/').get(blogController.getIndexPage);
 
 module.exports = router;
