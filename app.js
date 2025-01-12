@@ -1,32 +1,40 @@
+require('dotenv').config();
+
 const express = require('express')
 const mongoose = require('mongoose');
+const cors = require('cors');
 
-const blogRoute = require('./routes/blogRoute') 
+const postsRoute = require('./routes/postsRoute') 
 const userRoute = require('./routes/userRoute') 
-const userRoutes = require("./routes/userRoute");
 
 const app = express()
-
 //MİDDLWARE
 app.use(express.json());
+//mongodb://127.0.0.1:27017/blog_backend
 
-mongoose.connect('mongodb://127.0.0.1:27017/blog_backend').then(() => {
+mongoose.connect(process.env.MONGO_URI).then(() => {
   console.log("veritabanı bağlantısı sağlandı.");
 }).catch((err) => {
   console.log("veritabanı bağlantı hatası:", err);
 });
 
+// CORS ayarları
+app.use(cors({
+  origin: 'http://localhost:3000', // Nuxt.js uygulamanızın URL'si
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 
 //routes
 
 // app.use('/blogs', blogRoute); // Blog rotaları
-app.use('/users', userRoutes); // Kullanıcı rotaları
+app.use('/users', userRoute); // Kullanıcı rotaları
+app.use('/', postsRoute);
+// app.get('/', (req, res) => {
+//   res.send('Hello World');
+// });
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
-
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Example app listening on port ${port} = http://localhost:${port}`)
 });

@@ -33,18 +33,32 @@ exports.registerUser = async (req, res) => {
   };
   
   // Kullanıcı girişi
-  exports.loginUser = async (req, res) => {
-    try {
-      const { username, password } = req.body;
-      const user = await User.findOne({ username, password });
-      if (!user) {
-        return res.status(401).json({ status: 'fail', message: 'Hatalı kullanıcı adı veya şifre' });
-      }
-      res.status(200).json({ status: 'success', data: user });
-    } catch (error) {
-      res.status(400).json({ status: 'fail', error });
+  // exports.loginUser = async (req, res) => {
+  //   try {
+  //     const { username, password } = req.body;
+  //     const user = await User.findOne({ username, password });
+  //     if (!user) {
+  //       return res.status(401).json({ status: 'fail', message: 'Hatalı kullanıcı adı veya şifre' });
+  //     }
+  //     res.status(200).json({ status: 'success', data: user });
+  //   } catch (error) {
+  //     res.status(400).json({ status: 'fail', error });
+  //   }
+  // };
+
+exports.loginUser = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ status: 'fail', message: 'Hatalı kullanıcı adı veya şifre' });
     }
-  };
+    res.status(200).json({ status: 'success', data: user });
+  } catch (error) {
+    res.status(400).json({ status: 'fail', error });
+  }
+};
+
   
   // Tüm kullanıcıları listeleme
   exports.getAllUsers = async (req, res) => {
