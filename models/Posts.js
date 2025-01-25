@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
   title: { type: String, required: true, unique:true },
-  subtitle: String,
+  subtitle: String, 
   content: { type: String, required: true },
   tag: String ,
   image: String ,
@@ -11,4 +11,4 @@ const postSchema = new mongoose.Schema({
   
 });
 
-module.exports = mongoose.model('Post', postSchema);
+module.exports = mongoose.model('Posts', postSchema);

@@ -19,11 +19,11 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 });
 
 // CORS ayarları
-app.use(cors({
-  origin: 'http://localhost:3000', // Nuxt.js uygulamanızın URL'si
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
-}));
+// app.use(cors({
+//   origin: 'http://localhost:3000', // Nuxt.js uygulamanızın URL'si
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   credentials: true,
+// }));
 
 //routes
 

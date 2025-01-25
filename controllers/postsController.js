@@ -1,65 +1,105 @@
-// exports.getIndexPage = (req,res) => {
-//     res.status(200).json({message:'welcome to blog page'})
-// };
-// exports.createBlog = async(req,res) => {
-//     const blog  = await blog.create(req.body);
-//     try{
-//       res.status(201).json({status:'welcome to blog page',data: blog,})
-//     }catch{
-//         res.status(400).json({
-//             status:'fail',
-//             error,
-//     })
-//     }
-//     };
+const Posts = require('../models/Posts');
+// tüm postları getirir
 exports.getPosts = async (req, res) => {
   try {
     const posts = await Posts.find();
-    res.status(201).json({ status: 'success', data: posts });
+    res.status(200).json( posts );
   } catch (error) {
-    res.status(400).json({ status: 'fail', error });
+    res.status(404).json({ status: 'fail', message: error.message });
   }
  
 };
+//post un detayına gitmeyi sağlar
+exports.getSinglePost = async (req, res) => {
+  try {
+    const {id : _id} = req.params;
+    const post = await Posts.findById(_id);
+    res.status(200).json( post );
+  } catch (error) {
+    res.status(404).json({ status: 'fail', message: error.message });
+  }
+ 
+};
+
+// yeni bir post oluşturur
 exports.createPost = async (req, res) => {
   try {
     const newPost = await Posts.create(req.body);
-    res.status(201).json({ status: 'success', data: newPost });
+    res.status(201).json( newPost );
   } catch (error) {
-    res.status(400).json({ status: 'fail', error });
-  }
-  res.json({
-    author:"coding",
-    message:"hello",
-  });
-};
-
-exports.getPost = async (req, res) => {
-  try {
-    const post = await Posts.findById(req.params.id).populate('author');
-    res.status(200).json({ status: 'success', data: post });
-  } catch (error) {
-    res.status(404).json({ status: 'fail', error: 'Post not found' });
+    res.status(400).json({ status: 'fail', message: error.message });
   }
 };
 
+// Postu günceller
 exports.updatePost = async (req, res) => {
+  const { id: _id } = req.params;
+
+  // ObjectId kontrolü
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
+    return res.status(400).json({ status: 'fail', message: 'Invalid ID format' });
+  }
+
   try {
-    const post = await Post.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
+    const updatedPost = await Posts.findByIdAndUpdate(_id, req.body, {
+      new: true, 
       runValidators: true,
     });
-    res.status(200).json({ status: 'success', data: post });
+
+    if (!updatedPost) {
+      return res.status(404).json({ status: 'fail', message: 'Post not found' });
+    }
+
+    res.status(200).json({ status: 'success', data: updatedPost });
   } catch (error) {
-    res.status(400).json({ status: 'fail', error });
+    res.status(400).json({ status: 'fail', message: error.message });
   }
 };
 
+// Postu siler
 exports.deletePost = async (req, res) => {
+  const { id: _id } = req.params;
+
+  //ObjectId kontrolü
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
+    return res.status(400).json({ status: 'fail', message: 'Invalid ID format' });
+  }
+
   try {
-    await Post.findByIdAndDelete(req.params.id);
-    res.status(204).json({ status: 'success', data: null });
+    const deletedPost = await Posts.findByIdAndDelete(_id);
+
+    if (!deletedPost) {
+      return res.status(404).json({ status: 'fail', message: 'Post not found' });
+    }
+
+    res.status(200).json({ status: 'success', data: deletedPost });
   } catch (error) {
-    res.status(400).json({ status: 'fail', error });
+    res.status(500).json({ status: 'fail', message: error.message });
   }
 };
+
+// exports.updatePost = async (req, res) => {
+//   const {id :_id } =req.params;
+//   const post = req.body;
+//   try {
+//     const updatedPost = await Posts.findByIdAndUpdate(_id , post , {
+//       new: true,
+//       // runValidators: true,
+//     });
+//     res.json(updatedPost);
+//   } catch (error) {
+//     res.status(400).json({ status: 'fail', error });
+//   }
+// };
+
+// exports.deletePost = async (req, res) => {
+
+//   const {id : _id } = req.params;
+
+//   try {
+//     const deletedPost = await Posts.findByIdAndDelete(_id);
+//     res.json(deletedPost);
+//   } catch (error) {
+//     res.status(400).json({ status: 'fail',error });
+//   }
+// };
