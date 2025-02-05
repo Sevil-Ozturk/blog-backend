@@ -3,7 +3,7 @@ const Posts = require('../models/Posts');
 exports.getPosts = async (req, res) => {
   try {
     const posts = await Posts.find();
-    res.status(200).json( posts );
+    res.status(200).json( {posts,total: posts.length });
   } catch (error) {
     res.status(404).json({ status: 'fail', message: error.message });
   }

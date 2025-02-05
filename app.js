@@ -11,6 +11,14 @@ const app = express()
 //MİDDLWARE
 app.use(express.json());
 //mongodb://127.0.0.1:27017/blog_backend
+// const corsOptions = {
+//   origin: 'http://localhost:3000',  // sadece bu adresden gelen isteklere izin verir
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],  // sadece bu HTTP metodlarına izin verir
+//   allowedHeaders: ['Content-Type'],  // sadece bu başlıklarla gelen isteklere izin verir
+// };
+
+// app.use(cors(corsOptions));
+app.use(cors());
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
   console.log("veritabanı bağlantısı sağlandı.");

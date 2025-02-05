@@ -4,9 +4,9 @@ const postSchema = new mongoose.Schema({
   title: { type: String, required: true, unique:true },
   subtitle: String, 
   content: { type: String, required: true },
-  tag: String ,
+  tags: String ,
   image: String ,
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   createdAt: { type: Date, default: Date.now },
   
 });
