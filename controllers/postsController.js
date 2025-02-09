@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const Posts = require('../models/Posts');
 // tüm postları getirir
 exports.getPosts = async (req, res) => {
@@ -77,29 +79,3 @@ exports.deletePost = async (req, res) => {
     res.status(500).json({ status: 'fail', message: error.message });
   }
 };
-
-// exports.updatePost = async (req, res) => {
-//   const {id :_id } =req.params;
-//   const post = req.body;
-//   try {
-//     const updatedPost = await Posts.findByIdAndUpdate(_id , post , {
-//       new: true,
-//       // runValidators: true,
-//     });
-//     res.json(updatedPost);
-//   } catch (error) {
-//     res.status(400).json({ status: 'fail', error });
-//   }
-// };
-
-// exports.deletePost = async (req, res) => {
-
-//   const {id : _id } = req.params;
-
-//   try {
-//     const deletedPost = await Posts.findByIdAndDelete(_id);
-//     res.json(deletedPost);
-//   } catch (error) {
-//     res.status(400).json({ status: 'fail',error });
-//   }
-// };
