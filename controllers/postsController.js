@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Posts = require('../models/Posts');
+const Posts = require('../models/Post');
 // tüm postları getirir
 exports.getPosts = async (req, res) => {
   try {

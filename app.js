@@ -4,8 +4,8 @@ const express = require('express')
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-const postsRoute = require('./routes/postsRoute') 
-const userRoute = require('./routes/userRoute') 
+const postsRoute = require('./routes/postRoutes') 
+const usersRoute = require('./routes/userRoutes') 
 
 const app = express()
 //MİDDLWARE
@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 
 //routes
 
-app.use('/users', userRoute); // Kullanıcı rotaları
+app.use('/users', usersRoute); // Kullanıcı rotaları
 app.use('/', postsRoute);
 
 
