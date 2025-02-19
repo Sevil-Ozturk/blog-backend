@@ -26,7 +26,12 @@ exports.getSinglePost = async (req, res) => {
 // yeni bir post oluşturur
 exports.createPost = async (req, res) => {
   try {
-    const newPost = await Posts.create(req.body);
+    const newPostData=req.body;
+
+    if(req.file){
+      newPostData.image = `/uploads/${rawListeners.file.filename}`;
+    }
+    const newPost = await Posts.create(newPostData);
     res.status(201).json( newPost );
   } catch (error) {
     res.status(400).json({ status: 'fail', message: error.message });
@@ -43,6 +48,12 @@ exports.updatePost = async (req, res) => {
   }
 
   try {
+
+    const updatedData = req.body;
+    if (req.file) {
+      updatedData.image = `/uploads/${req.file.filename}`;
+    }
+
     const updatedPost = await Posts.findByIdAndUpdate(_id, req.body, {
       new: true, 
       runValidators: true,

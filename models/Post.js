@@ -5,7 +5,7 @@ const postSchema = new mongoose.Schema({
   // subtitle: String, 
   content: { type: String, required: true },
   tags: [String] ,
-  image: { type: String } ,
+  image: { type: String ,default:''} ,
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   createdAt: { type: Date, default: Date.now },
   
