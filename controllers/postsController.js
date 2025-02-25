@@ -29,7 +29,7 @@ exports.createPost = async (req, res) => {
     const newPostData=req.body;
 
     if(req.file){
-      newPostData.image = `/uploads/${rawListeners.file.filename}`;
+      newPostData.image = `/uploads/${req.file.filename}`;
     }
     const newPost = await Posts.create(newPostData);
     res.status(201).json( newPost );
