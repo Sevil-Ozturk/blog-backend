@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 
 const express = require('express')
 const mongoose = require('mongoose');
@@ -12,7 +13,7 @@ const app = express()
 //MİDDLWARE
 app.use(express.json());
 app.use(cors());
-app.use('/uploads',express.static("uploads"));
+app.use('/uploads',express.static(path.join(__dirname, 'uploads')));
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
   console.log("veritabanı bağlantısı sağlandı.");

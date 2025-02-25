@@ -44,7 +44,7 @@ exports.updatePost = async (req, res) => {
 
   // ObjectId kontrolü
   if (!mongoose.Types.ObjectId.isValid(_id)) {
-    return res.status(400).json({ status: 'fail', message: 'Invalid ID format' });
+    return res.status(400).json({ status: 'fail', message: 'Geçersiz ID formatı' });
   }
 
   try {
@@ -54,7 +54,7 @@ exports.updatePost = async (req, res) => {
       updatedData.image = `/uploads/${req.file.filename}`;
     }
 
-    const updatedPost = await Posts.findByIdAndUpdate(_id, req.body, {
+    const updatedPost = await Posts.findByIdAndUpdate(_id, updatedData, {
       new: true, 
       runValidators: true,
     });
@@ -75,14 +75,14 @@ exports.deletePost = async (req, res) => {
 
   //ObjectId kontrolü
   if (!mongoose.Types.ObjectId.isValid(_id)) {
-    return res.status(400).json({ status: 'fail', message: 'Invalid ID format' });
+    return res.status(400).json({ status: 'fail', message: 'Geçersiz ID formatı' });
   }
 
   try {
     const deletedPost = await Posts.findByIdAndDelete(_id);
 
     if (!deletedPost) {
-      return res.status(404).json({ status: 'fail', message: 'Post not found' });
+      return res.status(404).json({ status: 'fail', message: 'Post Bulunamadı' });
     }
 
     res.status(200).json({ status: 'success', data: deletedPost });
