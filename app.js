@@ -4,16 +4,28 @@ const path = require('path');
 const express = require('express')
 const mongoose = require('mongoose');
 const cors = require('cors');
-const multer=require('multer')
+// const bodyParser=require('body-parser')
+
+const app = express()
+
+//MİDDLWARE
+app.use(express.json({ limit: '50mb' }));
+app.use(cors());
 
 const postsRoute = require('./routes/postRoutes') 
 // const usersRoute = require('./routes/userRoutes') 
 
-const app = express()
-//MİDDLWARE
-app.use(express.json());
-app.use(cors());
+
+
+
 app.use('/uploads',express.static(path.join(__dirname, 'uploads')));
+
+
+
+// // JSON verileri kabul et ve boyut limitini artır (olmadı bu kod)
+// app.use(bodyParser.json({ limit: '500mb' }));  // 50 MB'a kadar veri kabul edilir.
+// app.use(bodyParser.urlencoded({ limit: '500mb', extended: true }));  // URL encoded veriler için de limit artırılabilir.
+
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
   console.log("veritabanı bağlantısı sağlandı.");
