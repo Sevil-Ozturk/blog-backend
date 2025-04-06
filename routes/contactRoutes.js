@@ -23,7 +23,6 @@ router.post('/', async (req, res) => {
   
     try {
       await transporter.sendMail(mailOptions);
-      console.log("Mail gönderildi:", mailOptions); // 👈 bu satır önemli
       res.status(200).json({ message: 'Mesaj başarıyla gönderildi!' });
 
     } catch (error) {
